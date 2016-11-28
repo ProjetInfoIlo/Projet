@@ -8,14 +8,14 @@ class Matrice {
 		double **matrice;
 
 	public:
-		Matrice(int lignes, int colonnes, bool initToZero = false) {
+		Matrice(int lignes, int colonnes, bool initToZero = false, int defaultValue = 0) {
 			this->lignes = lignes;
 			this->colonnes = colonnes;
 
 			matrice = new double*[lignes];
 			for (int i = 0; i < lignes; ++i) {
 				matrice[i] = new double[colonnes];
-				if (initToZero) for (int j = 0; j < colonnes; ++j) matrice[i][j] = 0;
+				if (initToZero) for (int j = 0; j < colonnes; ++j) matrice[i][j] = defaultValue;
 			}
 		}
 
@@ -62,7 +62,7 @@ class Matrice {
 		//donc 5 * A (par exemple) ne marche pas
 		//donc on ajoute la fonction suivante en complément
 		friend Matrice operator * (double x, const Matrice& m) {
-			Matrice result(m);
+			Matrice result(m);			
 
 			for (int ligne = 0; ligne < m.lignes; ++ligne)
 				for (int colonne = 0; colonne < m.colonnes; ++colonne)
@@ -148,6 +148,8 @@ class Matrice {
 			for (int ligne = 0; ligne < lignes; ++ligne)
 				for (int colonne = 0; colonne < colonnes; ++colonne)
 					result.setValue(colonne, ligne, getValue(ligne, colonne));
+
+			return result;
 		}
 
 		Matrice comatrice() {
@@ -180,5 +182,14 @@ class Matrice {
 			}
 
 			return result;
+		}
+
+		Matrice inverse() {
+			if (lignes != colonnes) throw new string("Impossible de determiner l'inverse");
+
+			double det = determinant();
+			if (det == 0) throw new string("Det = 0");
+
+			return 1 / det * comatrice().transposee();
 		}
 };

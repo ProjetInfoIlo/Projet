@@ -12,14 +12,15 @@ int getRandom(int min, int max) {
 int main() {
 	srand(time(NULL));
 
-	Matrice m(2, 2);
+	int taille = 3;
+
+	Matrice m(3, 3);
 	
-	for (int ligne = 0; ligne < 2; ++ligne)
-		for (int colonne = 0; colonne < 2; ++colonne)
+	for (int ligne = 0; ligne < taille; ++ligne)
+		for (int colonne = 0; colonne < taille; ++colonne)
 			m.setValue(ligne, colonne, getRandom(-10, 10));
 
-	cout << m << endl;
-	cout << m.comatrice() << endl;
+	cout << m * m.inverse() << endl;
 
 	system("PAUSE");
 
