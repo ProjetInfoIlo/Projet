@@ -22,7 +22,7 @@ class Matrice {
 		Matrice(const Matrice& m) {
 			this->lignes = m.lignes;
 			this->colonnes = m.colonnes;
-
+			
 			matrice = new double*[lignes];
 			for (int i = 0; i < lignes; ++i) {
 				matrice[i] = new double[colonnes];
@@ -111,8 +111,9 @@ class Matrice {
 		double determinant() {
 			if (lignes != colonnes) throw new string("Calcul determinant impossible");
 
-			//pas besoin de vérifier colonnes == 2...
-			if (lignes == 2) return getValue(0, 0) * getValue(1, 1) - getValue(0, 1) * getValue(1, 0);
+			//pas besoin de vérifier ET ligne ET colonne
+			if (lignes == 1) return getValue(0, 0);
+			else if (lignes == 2) return getValue(0, 0) * getValue(1, 1) - getValue(0, 1) * getValue(1, 0);
 			else {
 				double somme = 0;
 				for (int i = 0; i < colonnes; ++i) {
@@ -137,5 +138,47 @@ class Matrice {
 
 				return somme;
 			}
+		}
+
+		Matrice transposee() {
+			if (lignes != colonnes) throw new string("Impossible de calculer la transposée");
+
+			Matrice result(lignes, colonnes);
+
+			for (int ligne = 0; ligne < lignes; ++ligne)
+				for (int colonne = 0; colonne < colonnes; ++colonne)
+					result.setValue(colonne, ligne, getValue(ligne, colonne));
+		}
+
+		Matrice comatrice() {
+			if (lignes != colonnes) throw new string("Impossible de calculer la comatrice");
+
+			Matrice result(lignes, colonnes);
+
+			for (int ligne = 0; ligne < lignes; ++ligne) {
+				for (int colonne = 0; colonne < colonnes; ++colonne) {
+					Matrice sousMatrice(lignes - 1, colonnes - 1);
+
+					int subLigne = 0;
+					for (int l = 0; l < lignes; ++l) {
+						if (l == ligne) continue;
+
+						int subColonne = 0;
+						for (int c = 0; c < colonnes; ++c) {
+							if (c == colonne) continue;
+
+							sousMatrice.setValue(subLigne, subColonne, getValue(l, c));
+
+							++subColonne;
+						}
+
+						++subLigne;
+					}
+
+					result.setValue(ligne, colonne, ((ligne + colonne) % 2 * -2 + 1) * sousMatrice.determinant());
+				}
+			}
+
+			return result;
 		}
 };
