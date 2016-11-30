@@ -74,13 +74,13 @@ class Matrice {
 		}
 
 		Matrice operator * (const Matrice& m) const {
-			if (lignes != m.colonnes) throw new string("Multiplication impossible");
+			if (m.lignes != colonnes) throw new string("Multiplication impossible");
 
-			Matrice result(m.lignes, m.colonnes, true);
+			Matrice result(lignes, m.colonnes, true);
 
-			for (int ligne = 0; ligne < m.lignes; ++ligne)
+			for (int ligne = 0; ligne < lignes; ++ligne)
 				for (int colonne = 0; colonne < m.colonnes; ++colonne)
-					for (int i = 0; i < lignes; ++i)
+					for (int i = 0; i < colonnes; ++i)
 						result.setValue(ligne, colonne, result.getValue(ligne, colonne) + getValue(ligne, i) * m.getValue(i, colonne));
 
 			return result;
