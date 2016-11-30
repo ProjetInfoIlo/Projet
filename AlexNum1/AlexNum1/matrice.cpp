@@ -7,7 +7,7 @@ public:
 	int colonne, ligne;
 
 	// matrice A de même taille que matrice créée
-	matrice(const matrice &A) {
+	matrice(matrice &A) {
 		ligne = A.ligne;
 		colonne = A.colonne;
 			for (int i = 0; i < ligne; ++i)
@@ -32,7 +32,7 @@ public:
 		for (int i = 0; i < ligne; ++i)delete[] tableau[i];
 		delete [] tableau;
 	}
-		//Si la matrice de la première matrice est de dimension ixj la matrice B doit être de dimension jxp avec p quelconques
+		//Si la première matrice est de dimension ixj la matrice B doit être de dimension jxp avec p quelconques
 	matrice operator *(const matrice &B) const {
 		if (colonne != B.ligne)
 			throw new string ("Multiplication Impossible");
@@ -40,7 +40,7 @@ public:
 			for (int i = 0; i < ligne; ++i) {
 				for (int j = 0; j < B.colonne;++j) {
 					for (int k = 0; k < B.ligne; ++k) {
-						C.tableau[i][j] = C.tableau[i][j] + tableau[i][j] * B.tableau[j][k];
+						C.tableau[i][j] = C.tableau[i][j] + tableau[i][k] * B.tableau[k][j];
 						}
 					}
 				
@@ -77,15 +77,13 @@ public:
 		}
 		return flux;
 	}
-	matrice &operator =(const matrice &A) {
-		if ((colonne != A.colonne)&(ligne != A.ligne))
-			throw new string("Matrice de tailles différentes");
-		else {
-			for (int i = 0; i < ligne; ++i)
-				for (int j = 0; i < colonne; ++j) {
-					tableau[i][j] = A.tableau[i][j];
-				}
-		}
+	matrice &operator =(matrice &A) {
+		ligne = A.ligne;
+		colonne = A.colonne;
+		for (int i = 0; i < ligne; ++i)
+			for (int j = 0; i < colonne; ++j) {
+				tableau[i][j] = A.tableau[i][j];
+			}
 		return *this;
 	}
 	bool operator ==(const matrice &B) {
