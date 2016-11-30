@@ -11,6 +11,7 @@ int getRandom(int min, int max) {
 
 int main() {
 	srand(time(NULL));
+	//azrzaea
 
 	int taille = 3;
 

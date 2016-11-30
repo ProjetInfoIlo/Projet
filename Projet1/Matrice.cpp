@@ -1,5 +1,7 @@
 #include <iostream>
+#include <amp.h>
 using namespace std;
+using namespace concurrency;
 
 class Matrice {
 
@@ -62,6 +64,8 @@ class Matrice {
 		//donc 5 * A (par exemple) ne marche pas
 		//donc on ajoute la fonction suivante en complément
 		friend Matrice operator * (double x, const Matrice& m) {
+			//_Parallel_for_each()
+
 			Matrice result(m);			
 
 			for (int ligne = 0; ligne < m.lignes; ++ligne)
