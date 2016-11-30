@@ -14,8 +14,9 @@ public:
 		tableau = new double * [ligne];
 		for (int i = 0; i < ligne; ++i) {
 			tableau[i] = new double [colonne];
-			for (int j = 0; i < colonne; ++j) 
+			for (int j = 0; i < colonne; ++j) {
 				tableau[i][j] = A.tableau[i][j];
+			}
 		}
 	}
 	matrice (int i, int j, bool initToZero = false) {
