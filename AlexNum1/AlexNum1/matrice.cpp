@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdlib.h>
 using namespace std;
 
 class matrice {
@@ -7,14 +8,16 @@ public:
 	int colonne, ligne;
 
 	// matrice A de même taille que matrice créée
-	matrice(matrice &A) {
+	matrice(const matrice &A) {
 		ligne = A.ligne;
 		colonne = A.colonne;
-			for (int i = 0; i < ligne; ++i)
-				for (int j = 0; i < colonne; ++j) {
-					tableau[i][j] = A.tableau[i][j];
-				}
-		
+		tableau = new double * [ligne];
+		for (int i = 0; i < ligne; ++i) {
+			tableau[i] = new double [colonne];
+			for (int j = 0; i < colonne; ++j) {
+				tableau[i][j] = A.tableau[i][j];
+			}
+		}
 	}
 	matrice (int i, int j, bool initToZero = false) {
 		ligne = i;
@@ -77,7 +80,7 @@ public:
 		}
 		return flux;
 	}
-	matrice &operator =(matrice &A) {
+	matrice &operator =(const matrice &A) {
 		ligne = A.ligne;
 		colonne = A.colonne;
 		for (int i = 0; i < ligne; ++i)
@@ -100,8 +103,12 @@ public:
 };
 
 int main() {
+	cout << "E";
 	matrice A(2,2);
 	matrice B(2,2);
+	cout << "E";
+
+
 	A.tableau[0][0] = 1;
 	A.tableau[1][1] = 2;
 	A.tableau[0][1] = 2;
@@ -110,9 +117,15 @@ int main() {
 	B.tableau[1][1] = 1;
 	B.tableau[0][1] = 0;
 	B.tableau[1][0] = 0;
+	cout << "E";
 	matrice C(2, 2);
+	cout << "E";
 	C = A*B;
+	cout << "E";
 	cout << C;
+	cout << "E";
+	system("PAUSE");
+
 
 	return 0;
 }
