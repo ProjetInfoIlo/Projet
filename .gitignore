@@ -1,5 +1,15 @@
-ï»¿################################################################################
-# Ce fichier .gitignore a Ã©tÃ© automatiquement crÃ©Ã© par Microsoft(R) Visual Studio.
+################################################################################
+# Ce fichier .gitignore a été automatiquement créé par Microsoft(R) Visual Studio.
 ################################################################################
 
 /.vs/Bases/v14
+/Debug
+/Projet1/Debug/Bases.tlog
+/Projet1/Debug/Projet1.tlog
+/Projet1/Debug
+/Projet1/Projet1.vcxproj
+/Projet1/Projet1.vcxproj.user
+/Bases.VC.VC.opendb
+/Bases.VC.db
+/Bases.sln
+/.gitignore
