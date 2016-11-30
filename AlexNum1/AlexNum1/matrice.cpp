@@ -16,6 +16,7 @@ public:
 			tableau[i] = new double [colonne];
 			for (int j = 0; i < colonne; ++j) 
 				tableau[i][j] = A.tableau[i][j];
+
 		}
 	}
 	matrice (int i, int j, bool initToZero = false) {
