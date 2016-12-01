@@ -127,23 +127,26 @@ public :
 		if (getC() != getL())
 			throw new string("Regarde la taille de ta matrice !!!");
 		double determinant = 0;
-		if (getL() != 1)
-			getValue(0, 0);
+		if (getL() == 1)
+			return getValue(0, 0);
 		if (getL() != 2)
 			for (int i = 0; i < getL(); ++i) {
 				matrice C(getL() - 1, getC() - 1);
+				int compteur = 0;
 				for (int j = 0; j < getL(); ++j) {
-					int compteur = 0;
+					
 					if (j == i) {
-						continue;
-					}
+								continue;
+								}
 					else {
-						for (int k = 1; k < getC(); ++k)
-							C.setValue(compteur, k-1, getValue(j, k));
-						++compteur;
+						for (int k = 1; k < getC(); ++k) {
+							C.setValue(compteur, k - 1, getValue(j, k));
+							++compteur;
+						}
 					}
-				}
-				determinant = determinant + getValue(i, 0)*C.det();
+					}
+				cout << C;
+				determinant += (i % 2 * -2 + 1)*getValue(i, 0)*C.det();
 			}
 		else {
 			determinant = getValue(0, 0)*getValue(1, 1) - getValue(0, 1)*getValue(1, 0);
