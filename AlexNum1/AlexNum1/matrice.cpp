@@ -10,10 +10,10 @@ private :
 
 public :
 
-	int getL() {
+	int getL() const {
 		return ligne;
 	}
-	int getC() {
+	int getC() const {
 		return colonne;
 	}
 	void setLC(int L,int C) {
@@ -23,7 +23,7 @@ public :
 	void setValue(int L,int C, double value) {
 		tableau[L][C] = value;
 	}
-	double getValue(int L, int C) {
+	double getValue(int L, int C) const {
 		return tableau[L][C];
 	}
 
@@ -59,13 +59,13 @@ public :
 	}
 		//Si la première matrice est de dimension ixj la matrice B doit être de dimension jxp avec p quelconques
 	matrice operator *(const matrice &B) const {
-		if (colonne != B.ligne)
+		if (getC() != B.getL())
 			throw new string ("Multiplication Impossible");
-			matrice C (ligne, B.colonne, true);
-			for (int i = 0; i < ligne; ++i) {
-				for (int j = 0; j < B.colonne;++j) {
-					for (int k = 0; k < B.ligne; ++k) {
-						C.tableau[i][j] = C.tableau[i][j] + tableau[i][k] * B.tableau[k][j];
+			matrice C (getL(), B.getC(), true);
+			for (int i = 0; i < getL(); ++i) {
+				for (int j = 0; j < B.getC();++j) {
+					for (int k = 0; k < B.getL(); ++k) {
+						C.setValue(i, j, C.getValue(i, j) + getValue(i, k)*B.getValue(k, j));
 						}
 					}
 				
@@ -76,50 +76,82 @@ public :
 		}
 	//Matrice B de la même taille que celle de l'addition (Donc C aussi)
 	matrice operator +(const matrice &B) {
-		matrice C(ligne, colonne, false);
-		for(int i=0;i<ligne;++i)
-			for (int j = 0; j < colonne; ++j) {
-				C.tableau[i][j] = tableau[i][j] + B.tableau[i][j];
+		matrice C(getL(), getC(), false);
+		for(int i=0;i<getL();++i)
+			for (int j = 0; j < getC(); ++j) {
+				C.setValue(i,j,getValue(i,j)+B.getValue(i,j));
 			}
 		return C;
 
 	}
 	matrice operator -(const matrice &B) {
-		matrice C(ligne, colonne, false);
-		for (int i = 0; i<ligne; ++i)
-			for (int j = 0; j < colonne; ++j) {
-				C.tableau[i][j] = tableau[i][j] - B.tableau[i][j];
+		matrice C(getL(), getC(), false);
+		for (int i = 0; i<getL(); ++i)
+			for (int j = 0; j < getC(); ++j) {
+				C.setValue(i, j, getValue(i, j) - B.getValue(i, j));
 			}
 		return C;
 	}
 	friend ostream &operator <<(ostream &flux,const matrice &A) {
-		for (int i = 0; i < A.ligne; ++i) {
+		for (int i = 0; i < A.getL(); ++i) {
 			flux << '(';
-			for (int j = 0; j < A.colonne; ++j) {
-				flux << ' ' << A.tableau[i][j];
+			for (int j = 0; j < A.getC(); ++j) {
+				flux << ' ' << A.getValue(i,j);
 			}
 			flux << " )"<<endl;
 		}
 		return flux;
 	}
 	matrice &operator =(const matrice &A) {
-		ligne = A.ligne;
-		colonne = A.colonne;
-		for (int i = 0; i < ligne; ++i)
-			for (int j = 0; j< colonne; ++j) {
-				tableau[i][j] = A.tableau[i][j];
+		ligne = A.getL();
+		colonne = A.getC();
+		for (int i = 0; i < getL(); ++i)
+			for (int j = 0; j< getC(); ++j) {
+				setValue(i, j, A.getValue(i, j));
 			}
 		return *this;
 	}
 	bool operator ==(const matrice &B) {
 		
-		if ((colonne != B.colonne) || (ligne != B.ligne))
+		if ((getC() != B.getC()) || (getL() != B.getL()))
 			return false;
-		for (int i = 0; i < ligne; ++i)
-			for (int j = 0; j < colonne; j++)
-				if (tableau[i][j] != B.tableau[i][j])
+		for (int i = 0; i < getL(); ++i)
+			for (int j = 0; j < getC(); j++)
+				if (getValue(i,j) != B.getValue(i,j))
 					return false;
 		return true;
+	}
+	// La matrice doit être carrée
+	double det() const {
+		if (getC() != getL())
+			throw new string("Regarde la taille de ta matrice !!!");
+		double determinant=0;
+		if (getL()!=2)
+			for (int i = 0; i < getL(); ++i) {
+				matrice C(getL() - 1, getC() - 1);
+				for (int j = 0; j < getL(); ++j) {
+					int compteur = 0;
+						if (j == i) {
+							continue;
+						}
+						else {
+							for (int k = 1; j < getC(); ++k)
+								setValue(compteur, k, getValue(j, k));
+							++compteur;
+						}
+				}
+			}
+		else {
+
+		}
+							
+				determinant = determinant + getValue(i,0)*det()
+			}
+
+		
+		
+
+		return determinant;
 	}
 
 };
@@ -137,13 +169,13 @@ int main() {
 
 	for (int ligne = 0; ligne < taille; ++ligne)
 		for (int colonne = 0; colonne < taille; ++colonne)
-			m.tableau[ligne][colonne] = getRandom(-10, 10);
+			m.setValue(ligne, colonne, getRandom(-10, 10));
 
 	matrice a(3, 3);
 
 	for (int ligne = 0; ligne < taille; ++ligne)
 		for (int colonne = 0; colonne < taille; ++colonne)
-			a.tableau[ligne][colonne] = getRandom(-10, 10);
+			a.setValue(ligne, colonne, getRandom(-10, 10));;
 	cout << a<<endl<<m<<endl;
 	cout << a*m;
 	system("PAUSE");
