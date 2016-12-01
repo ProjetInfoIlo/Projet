@@ -132,17 +132,17 @@ public :
 		if (getL() != 2)
 			for (int i = 0; i < getL(); ++i) {
 				matrice C(getL() - 1, getC() - 1);
-				int compteur = 0;
+				
 				for (int j = 0; j < getL(); ++j) {
-					
-					if (j == i) {
-								continue;
-								}
-					else {
+					int compteur = 0;	
+					if (j == i)
+							continue;
+								
+					else {++compteur;
 						for (int k = 1; k < getC(); ++k) {
 							C.setValue(compteur, k - 1, getValue(j, k));
-							++compteur;
 						}
+							
 					}
 					}
 				cout << C;
