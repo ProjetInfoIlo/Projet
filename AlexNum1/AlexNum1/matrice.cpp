@@ -127,6 +127,8 @@ public :
 		if (getC() != getL())
 			throw new string("Regarde la taille de ta matrice !!!");
 		double determinant = 0;
+		if (getL() != 1)
+			getValue(0, 0);
 		if (getL() != 2)
 			for (int i = 0; i < getL(); ++i) {
 				matrice C(getL() - 1, getC() - 1);
@@ -137,7 +139,7 @@ public :
 					}
 					else {
 						for (int k = 1; k < getC(); ++k)
-							C.setValue(compteur, k, getValue(j, k));
+							C.setValue(compteur, k-1, getValue(j, k));
 						++compteur;
 					}
 				}
@@ -159,11 +161,12 @@ int main() {
 
 	int taille = 3;
 
-	matrice m(taille, taille);
+	matrice m(taille, taille,true);
 
-	for (int ligne = 0; ligne < taille; ++ligne)
-		for (int colonne = 0; colonne < taille; ++colonne)
-			m.setValue(ligne, colonne, getRandom(-10, 10));
+	m.setValue(0, 0, 3);
+	m.setValue(1, 1, 3);
+	m.setValue(2, 2, 1);
+
 
 
 	cout << m << "det :";
