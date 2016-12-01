@@ -22,8 +22,8 @@ class Matrice {
 		}
 
 		Matrice(const Matrice& m) {
-			this->lignes = m.lignes;
-			this->colonnes = m.colonnes;
+			this->lignes = m.getLignes();
+			this->colonnes = m.getColonnes();
 			
 			matrice = new double*[lignes];
 			for (int i = 0; i < lignes; ++i) {
@@ -45,10 +45,18 @@ class Matrice {
 			return matrice[ligne][colonne];
 		}
 
+		int getColonnes() const {
+			return colonnes;
+		}
+
+		int getLignes() const {
+			return lignes;
+		}
+
 		friend ostream& operator << (ostream& stream, const Matrice& m) {
-			for (int ligne = 0; ligne < m.lignes; ++ligne) {
-				for (int colonne = 0; colonne < m.colonnes - 1; ++colonne) stream << m.getValue(ligne, colonne) << " ";
-				stream << m.getValue(ligne, m.colonnes - 1) << endl;
+			for (int ligne = 0; ligne < m.getLignes(); ++ligne) {
+				for (int colonne = 0; colonne < m.getColonnes() - 1; ++colonne) stream << m.getValue(ligne, colonne) << " ";
+				stream << m.getValue(ligne, m.getColonnes() - 1) << endl;
 			}
 
 			return stream;
@@ -66,20 +74,20 @@ class Matrice {
 		friend Matrice operator * (double x, const Matrice& m) {
 			Matrice result(m);			
 
-			for (int ligne = 0; ligne < m.lignes; ++ligne)
-				for (int colonne = 0; colonne < m.colonnes; ++colonne)
+			for (int ligne = 0; ligne < m.getLignes(); ++ligne)
+				for (int colonne = 0; colonne < m.getColonnes(); ++colonne)
 					result.setValue(ligne, colonne, m.getValue(ligne, colonne) * x);
 
 			return result;
 		}
 
 		Matrice operator * (const Matrice& m) const {
-			if (m.lignes != colonnes) throw new string("Multiplication impossible");
+			if (m.getLignes() != colonnes) throw new string("Multiplication impossible");
 
-			Matrice result(lignes, m.colonnes, true);
+			Matrice result(lignes, m.getColonnes(), true);
 
 			for (int ligne = 0; ligne < lignes; ++ligne)
-				for (int colonne = 0; colonne < m.colonnes; ++colonne)
+				for (int colonne = 0; colonne < m.getColonnes(); ++colonne)
 					for (int i = 0; i < colonnes; ++i)
 						result.setValue(ligne, colonne, result.getValue(ligne, colonne) + getValue(ligne, i) * m.getValue(i, colonne));
 
@@ -87,24 +95,24 @@ class Matrice {
 		}
 
 		Matrice operator + (const Matrice& m) const {
-			if (lignes != m.lignes || colonnes != m.colonnes) throw new string("Addition impossible");
+			if (lignes != m.getLignes() || colonnes != m.getColonnes()) throw new string("Addition impossible");
 
 			Matrice result(lignes, colonnes);
 
-			for (int ligne = 0; ligne < m.lignes; ++ligne)
-				for (int colonne = 0; colonne < m.colonnes; ++colonne)
+			for (int ligne = 0; ligne < m.getLignes(); ++ligne)
+				for (int colonne = 0; colonne < m.getColonnes(); ++colonne)
 					result.setValue(ligne, colonne, m.getValue(ligne, colonne) + getValue(ligne, colonne));
 
 			return result;
 		}
 
 		Matrice operator - (const Matrice& m) const {
-			if (lignes != m.lignes || colonnes != m.colonnes) throw new string("Addition impossible");
+			if (lignes != m.getLignes() || colonnes != m.getColonnes()) throw new string("Addition impossible");
 
 			Matrice result(lignes, colonnes);
 
-			for (int ligne = 0; ligne < m.lignes; ++ligne)
-				for (int colonne = 0; colonne < m.colonnes; ++colonne)
+			for (int ligne = 0; ligne < m.getLignes(); ++ligne)
+				for (int colonne = 0; colonne < m.getColonnes(); ++colonne)
 					result.setValue(ligne, colonne, m.getValue(ligne, colonne) - getValue(ligne, colonne));
 
 			return result;
