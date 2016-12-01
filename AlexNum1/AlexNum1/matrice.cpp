@@ -54,7 +54,8 @@ public :
 		}
 	}
 	~matrice() {
-		for (int i = 0; i < ligne; ++i)delete[] tableau[i];
+		for (int i = 0; i < ligne; ++i)
+			delete[] tableau[i];
 		delete [] tableau;
 	}
 		//Si la première matrice est de dimension ixj la matrice B doit être de dimension jxp avec p quelconques
@@ -135,12 +136,12 @@ public :
 						continue;
 					}
 					else {
-						for (int k = 1; j < getC(); ++k)
+						for (int k = 1; k < getC(); ++k)
 							C.setValue(compteur, k, getValue(j, k));
 						++compteur;
 					}
 				}
-				determinant = determinant + getValue(i, 0)*det();
+				determinant = determinant + getValue(i, 0)*C.det();
 			}
 		else {
 			determinant = getValue(0, 0)*getValue(1, 1) - getValue(0, 1)*getValue(1, 0);
@@ -158,7 +159,7 @@ int main() {
 
 	int taille = 3;
 
-	matrice m(3, 3);
+	matrice m(taille, taille);
 
 	for (int ligne = 0; ligne < taille; ++ligne)
 		for (int colonne = 0; colonne < taille; ++colonne)
