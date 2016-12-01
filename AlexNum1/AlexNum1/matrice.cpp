@@ -125,35 +125,28 @@ public :
 	double det() const {
 		if (getC() != getL())
 			throw new string("Regarde la taille de ta matrice !!!");
-		double determinant=0;
-		if (getL()!=2)
+		double determinant = 0;
+		if (getL() != 2)
 			for (int i = 0; i < getL(); ++i) {
 				matrice C(getL() - 1, getC() - 1);
 				for (int j = 0; j < getL(); ++j) {
 					int compteur = 0;
-						if (j == i) {
-							continue;
-						}
-						else {
-							for (int k = 1; j < getC(); ++k)
-								setValue(compteur, k, getValue(j, k));
-							++compteur;
-						}
+					if (j == i) {
+						continue;
+					}
+					else {
+						for (int k = 1; j < getC(); ++k)
+							C.setValue(compteur, k, getValue(j, k));
+						++compteur;
+					}
 				}
+				determinant = determinant + getValue(i, 0)*det();
 			}
 		else {
-
+			determinant = getValue(0, 0)*getValue(1, 1) - getValue(0, 1)*getValue(1, 0);
 		}
-							
-				determinant = determinant + getValue(i,0)*det()
-			}
-
-		
-		
-
 		return determinant;
 	}
-
 };
 
 int getRandom(int min, int max) {
@@ -171,13 +164,9 @@ int main() {
 		for (int colonne = 0; colonne < taille; ++colonne)
 			m.setValue(ligne, colonne, getRandom(-10, 10));
 
-	matrice a(3, 3);
 
-	for (int ligne = 0; ligne < taille; ++ligne)
-		for (int colonne = 0; colonne < taille; ++colonne)
-			a.setValue(ligne, colonne, getRandom(-10, 10));;
-	cout << a<<endl<<m<<endl;
-	cout << a*m;
+	cout << m << "det :";
+	cout<< m.det();
 	system("PAUSE");
 
 	return 0;
