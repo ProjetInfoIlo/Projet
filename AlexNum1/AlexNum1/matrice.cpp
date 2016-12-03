@@ -132,20 +132,18 @@ public :
 		if (getL() != 2)
 			for (int i = 0; i < getL(); ++i) {
 				matrice C(getL() - 1, getC() - 1);
-				
-				for (int j = 0; j < getL(); ++j) {
-					int compteur = 0;	
+				int compteur_L_C = 0;
+				for (int j = 0; j < getL(); ++j) {	
 					if (j == i)
-							continue;
-								
-					else {++compteur;
+							continue;	
+					else {
 						for (int k = 1; k < getC(); ++k) {
-							C.setValue(compteur, k - 1, getValue(j, k));
+							C.setValue(compteur_L_C, k - 1, getValue(j, k));
 						}
-							
+						++compteur_L_C;	
 					}
-					}
-				cout << C;
+				}
+		
 				determinant += (i % 2 * -2 + 1)*getValue(i, 0)*C.det();
 			}
 		else {
@@ -154,25 +152,25 @@ public :
 		return determinant;
 	}
 	matrice transposee() {
-		matrice trans(getL(),getC())
+		matrice trans(getL(), getC());
 			for (int i = 0; i < getL(); ++i)
 				for (int j = 0; j < getC(); ++j)
 					trans.setValue(i, j, getValue(j, i));
-		return trans
+		return trans;
 	}
 	matrice comatrice() {
 		if (getC() != getL())
 			throw new string("Regarde la taille de ta matrice !!!");
-		matrice com(getL; getC);
+		matrice com(getL(), getC());
 		for (int L = 0; L < getL(); ++L)
 			for (int C = 0; C < getC(); ++C) {
 				matrice sM(getL() - 1, getC() - 1);
 				int compteur_L = 0;
-				for (int SL = 0; SC < getL(); ++SC) {
+				for (int SL = 0; SL < getL(); ++SL) {
 					if (SL == L)
 						continue;
 					else {
-						int compteur_C = 0
+						int compteur_C = 0;
 							for (int SC = 0; SC < getC(); ++SC) {
 								if (SC == C)
 									continue;
@@ -208,8 +206,8 @@ int main() {
 
 
 
-	cout << m << "det :";
-	cout<< m.det();
+	
+	cout<< m.comatrice();
 	system("PAUSE");
 
 	return 0;
