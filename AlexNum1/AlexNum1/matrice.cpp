@@ -153,6 +153,42 @@ public :
 		}
 		return determinant;
 	}
+	matrice transposee() {
+		matrice trans(getL(),getC())
+			for (int i = 0; i < getL(); ++i)
+				for (int j = 0; j < getC(); ++j)
+					trans.setValue(i, j, getValue(j, i));
+		return trans
+	}
+	matrice comatrice() {
+		if (getC() != getL())
+			throw new string("Regarde la taille de ta matrice !!!");
+		matrice com(getL; getC);
+		for (int L = 0; L < getL(); ++L)
+			for (int C = 0; C < getC(); ++C) {
+				matrice sM(getL() - 1, getC() - 1);
+				int compteur_L = 0;
+				for (int SL = 0; SC < getL(); ++SC) {
+					if (SL == L)
+						continue;
+					else {
+						int compteur_C = 0
+							for (int SC = 0; SC < getC(); ++SC) {
+								if (SC == C)
+									continue;
+								else {
+									sM.setValue(compteur_L, compteur_C, getValue(SL, SC));
+									++compteur_C;
+								}
+							}
+						++compteur_L;
+					}
+				}
+				com.setValue(L, C, sM.det());
+			}
+		return com;
+	}
+
 };
 
 int getRandom(int min, int max) {
@@ -162,7 +198,7 @@ int getRandom(int min, int max) {
 int main() {
 	srand(time(NULL));
 
-	int taille = 3;
+	int taille = 3;       
 
 	matrice m(taille, taille,true);
 
